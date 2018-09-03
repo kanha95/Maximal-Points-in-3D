@@ -1,0 +1,100 @@
+package javaapplication2;
+import java.util.*;
+
+
+class pair implements Comparable<pair>{
+    int y,z;
+    
+    pair(int y,int z){
+        this.y=y;
+        this.z=z;
+    }
+
+    @Override
+    public int compareTo(pair that) {
+        return Integer.compare(this.y, that.y);//To change body of generated methods, choose Tools | Templates.
+    }
+            
+}
+
+class pair2{
+    int x,y,z;
+    pair2(int x,int y,int z){
+        this.x=x;
+        this.y=y;
+        this.z=z;
+    }
+}
+
+
+
+public class JavaApplication2 {
+
+    
+    public static void main(String[] args) {
+       
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        
+        TreeMap<Integer,ArrayList<pair>> tm=new TreeMap<>(Collections.reverseOrder());
+        
+        
+        for (int i = 0; i < n; i++) {
+            int x=sc.nextInt();
+            int y=sc.nextInt();
+            int z=sc.nextInt();
+            
+            if(tm.containsKey(x)) {
+                ArrayList<pair> al=tm.get(x);
+                al.add(new pair(y,z));
+                tm.put(x, al);
+            }
+            else{
+                ArrayList<pair> al=new ArrayList<>();
+                al.add(new pair(y,z));
+                tm.put(x,al);
+            }
+        }
+      ArrayList<pair2> answer=new ArrayList<>();
+      boolean entry=false;
+       for(Map.Entry<Integer,ArrayList<pair>> i:tm.entrySet()){
+           ArrayList<pair> al=i.getValue();
+           
+           if(!entry){
+           Collections.sort(al,Collections.reverseOrder());
+           }
+           
+           for(pair m:al){
+               if(!entry){
+                   answer.add(new pair2(i.getKey(),m.y,m.z));
+                   entry=true;
+               }
+               else{
+                   boolean check=false;
+                   for(pair2 q:answer){
+                       if(q.y>=m.y && q.z>=m.z){
+                           check=true;
+                           break;
+                       }
+                   }
+                   
+                   if(!check) answer.add(new pair2(i.getKey(),m.y,m.z));
+               }
+               
+           }
+           
+       }
+       
+       for(pair2 pp:answer){
+           System.out.println(pp.x+" "+pp.y+" "+pp.z+"----" +answer.size());
+       }
+        
+       
+       
+        
+        
+        
+    }
+    
+}
+
