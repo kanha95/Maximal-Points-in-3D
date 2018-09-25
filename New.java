@@ -162,7 +162,7 @@ class AvlTree {
         return x;
     }
 
-    public Node2 leftRotate(Node2 x) {
+    public Node2 leftRotate(Node2 x){
         Node2 y = x.right;
         Node2 T2 = y.left;
 
@@ -191,7 +191,7 @@ class AvlTree {
         node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
 
         int balDiff = getBalance(node);
-
+/*
         if (balDiff > 1 && y < node.left.y) {
             return rightRotate(node);
         }
@@ -206,6 +206,25 @@ class AvlTree {
         }
 
         if (balDiff < -1 && y < node.right.y) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+*/
+
+        if (balDiff > 1 && getBalance(node.left) >= 0) {
+            return rightRotate(node);
+        }
+
+        if (balDiff > 1 && getBalance(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+
+        if (balDiff < -1 && getBalance(node.right) <= 0) {
+            return leftRotate(node);
+        }
+
+        if (balDiff < -1 && getBalance(node.right) > 0) {
             node.right = rightRotate(node.right);
             return leftRotate(node);
         }
@@ -319,6 +338,8 @@ class AvlTree {
         }
 
         if (checkk) {
+           
+
             node = insert(node, y, z, x, i);
         }
         checkk = true;
@@ -340,7 +361,7 @@ class AvlTree {
         if (root != null) {
             inorder_s(al, root.left, y, z, x, i);
 
-            if (y > root.y && z > root.z) {
+            if (y >= root.y && z >= root.z) {
                 al.add(root.y);
                
                 if (root.x != x) {
@@ -416,5 +437,4 @@ class NewClass{
     }
 
 }
-
 
